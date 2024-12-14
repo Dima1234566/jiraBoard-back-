@@ -6,8 +6,11 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 
 async function start() {
+
   const PORT = process.env.PORT || 5000;
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, new ExpressAdapter(express), {
+    cors: true,
+  });
 
   const config = new DocumentBuilder()
     .setTitle('Backend for to do board')
