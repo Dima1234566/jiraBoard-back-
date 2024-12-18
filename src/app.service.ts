@@ -173,6 +173,18 @@ export class AppService {
   }
 
 
+
+  async findCardBoardById(id: string) {
+    try {
+      return await this.cardModel.find({
+        board: id
+      })
+
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
 }
 
 

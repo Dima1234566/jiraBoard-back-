@@ -104,6 +104,11 @@ export class AppController {
     return await this.appService.findAndDeleteCard(id);
   }
 
-
+  @ApiOperation({ summary: "Find Card by board id" })
+  @ApiResponse({ status: 200, type: Card })
+  @Get("/cards-for-board/:id")
+  async findCardsBoardById(@Param('id') id: string): Promise<Card[]> {
+    return await this.appService.findCardBoardById(id);
+  }
 
 }
