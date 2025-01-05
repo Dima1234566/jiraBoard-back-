@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { Controller, Get, Post, Delete, Patch, Body, Param } from '@nestjs/common';
+import { Controller, Get, Post, Delete, Patch, Body, Param, Query } from '@nestjs/common';
 import { AppService } from './app.service';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Card } from './card.model';
@@ -26,8 +26,8 @@ export class AppController {
   @ApiOperation({ summary: "Find All Board" })
   @ApiResponse({ status: 200, type: Board })
   @Get("/board")
-  async findAllBoard(): Promise<Board[]> {
-    return await this.appService.findAllBoards();
+  async findAllBoard(@Query() query: any): Promise<{ totalPages: number; currentPage: number; totalItem: number; data: Board[] }> {
+    return await this.appService.findAllBoards(query);
   }
 
   @ApiOperation({ summary: "Find Board by id" })

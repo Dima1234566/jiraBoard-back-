@@ -5,8 +5,8 @@ import { Board } from './board.model';
 import { InjectModel } from '@nestjs/mongoose';
 import { UpdateBoardDto } from './dto/board.dto';
 import { CreateCardDto } from './dto/create.catd.dto';
-import { title } from 'process';
 import { UpdateCardDto } from './dto/card.update.dto';
+import { totalmem } from 'os';
 
 @Injectable()
 export class AppService {
@@ -48,10 +48,23 @@ export class AppService {
   }
 
 
-  async findAllBoards() {
+  async findAllBoards(query?: any): Promise<{ totalPages: number; currentPage: number; totalItem: number; data: Board[] }> {
     try {
-      return await this.boardModel.find();
+      const { name, page, size } = query;
+      const currentPage = page || 1;
+      const sizeOfItems = size || 6;
+      const totalCount = await this.boardModel.countDocuments() || 0;
+      const totalPages = Math.ceil(totalCount / sizeOfItems);
+      const offSet = (currentPage - 1) * sizeOfItems;
+      if (!name) {
+        const res = await this.boardModel.find().limit(sizeOfItems).skip(offSet);
+        return { totalPages: totalPages, currentPage: currentPage, totalItem: totalCount, data: res }
+      } else {
+        const reg = new RegExp(name, "i")
+        const res = await this.boardModel.find({ name: { $regex: reg } }).limit(sizeOfItems).skip(offSet);
+        return { totalPages: totalPages, currentPage: currentPage, totalItem: totalCount, data: res }
 
+      }
     } catch (error) {
       console.error(error);
     }
