@@ -9,6 +9,7 @@ import { Board } from './board.model';
 import { UpdateBoardDto } from './dto/board.dto';
 import { GoogleAuthGuard } from './utils/Guard';
 import { GoogleUserDto } from './dto/google.user.dto';
+import { UserGoogle } from './google.model';
 
 @ApiTags("Boards")
 @Controller()
@@ -134,5 +135,14 @@ export class AppController {
     return res.redirect(`https://taskboard-navy.vercel.app/?token=${user.googleId}`);
   }
 
+
+  //User CONTROLLER
+
+  @ApiOperation({ summary: "Find USER by id" })
+  @ApiResponse({ status: 200, type: GoogleUserDto })
+  @Get("/user/:id")
+  async findUserId(@Param('id') id: string): Promise<GoogleUserDto> {
+    return await this.appService.findUserById(id);
+  }
 
 }

@@ -245,6 +245,23 @@ export class AppService {
 
   }
 
+
+  //USER SERVICE
+
+
+  async findUserById(id: string) {
+    try {
+
+      return await this.userModel.findOne({ googleId: id })
+
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+
+
+
 }
 
 
