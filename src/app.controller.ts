@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { Controller, Get, Post, Delete, Patch, Body, Param, Query } from '@nestjs/common';
+import { Controller, Get, Post, Delete, Patch, Body, Param, Query, UseGuards, Res, Req } from '@nestjs/common';
 import { AppService } from './app.service';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Card } from './card.model';
@@ -7,6 +7,8 @@ import { CreateCardDto } from './dto/create.catd.dto';
 import { UpdateCardDto } from './dto/card.update.dto';
 import { Board } from './board.model';
 import { UpdateBoardDto } from './dto/board.dto';
+import { GoogleAuthGuard } from './utils/Guard';
+import { GoogleUserDto } from './dto/google.user.dto';
 
 @ApiTags("Boards")
 @Controller()
@@ -25,9 +27,9 @@ export class AppController {
 
   @ApiOperation({ summary: "Find All Board" })
   @ApiResponse({ status: 200, type: Board })
-  @Get("/board")
-  async findAllBoard(@Query() query: any): Promise<{ totalPages: number; currentPage: number; totalItem: number; data: Board[] }> {
-    return await this.appService.findAllBoards(query);
+  @Get("/board/:id")
+  async findAllBoard(@Query() query: any, @Param("id") googleId: string): Promise<{ totalPages: number; currentPage: number; totalItem: number; data: Board[] }> {
+    return await this.appService.findAllBoards(googleId, query);
   }
 
   @ApiOperation({ summary: "Find Board by id" })
@@ -44,7 +46,7 @@ export class AppController {
     return await this.appService.findBoardByName(name);
   }
 
-  @ApiOperation({ summary: "Find All Board" })
+  @ApiOperation({ summary: "Update Board" })
   @ApiResponse({ status: 200, type: Board })
   @Patch("/board")
   async updateBoardName(@Body() board: UpdateBoardDto): Promise<Board> {
@@ -110,5 +112,27 @@ export class AppController {
   async findCardsBoardById(@Param('id') id: string): Promise<Card[]> {
     return await this.appService.findCardBoardById(id);
   }
+
+  // google CONTROLLERS
+
+  @ApiOperation({ summary: "google login" })
+  @ApiResponse({ status: 200, type: GoogleUserDto })
+  @UseGuards(GoogleAuthGuard)
+  @Get("/google/login")
+  googleLogin() {
+    return;
+  }
+
+  @ApiOperation({ summary: "google login" })
+  @ApiResponse({ status: 200, type: GoogleUserDto })
+  @UseGuards(GoogleAuthGuard)
+  @Get("/users/google/redirect")
+  async googleRedirect(@Res() res: any, @Req() req: any) {
+    const userId = req.user._id;
+    const user = await this.appService.findByUserId(userId);
+
+    return res.redirect(`https://taskboard-navy.vercel.app/?token=${user.googleId}`);
+  }
+
 
 }

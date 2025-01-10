@@ -11,6 +11,10 @@ export class Board extends Model<Board> {
     @Prop({ type: String })
     name: string;
 
+    @ApiProperty({ example: '121541251wsraq2', description: 'user id' })
+    @Prop({ type: String })
+    userId: string;
+
 }
 
 

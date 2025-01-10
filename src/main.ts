@@ -3,6 +3,8 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { ExpressAdapter } from '@nestjs/platform-express';
+import * as session from 'express-session';
+
 import express from 'express';
 
 
@@ -12,7 +14,16 @@ async function start() {
   const app = await NestFactory.create(AppModule, new ExpressAdapter(express), {
     cors: true,
   });
-
+  app.use(
+    session({
+      secret: process.env.GOOGLE_CLIENT_SECRET,
+      resave: false,
+      saveUninitialized: false,
+      cookie: {
+        maxAge: 60000,
+      },
+    }),
+  );
   const config = new DocumentBuilder()
     .setTitle('Backend for to do board')
     .setDescription('REST API Documentation')
@@ -40,6 +51,7 @@ async function start() {
   });
 }
 start();
+
 
 
 
