@@ -9,7 +9,6 @@ import { Board } from './board.model';
 import { UpdateBoardDto } from './dto/board.dto';
 import { GoogleAuthGuard } from './utils/Guard';
 import { GoogleUserDto } from './dto/google.user.dto';
-import { UserGoogle } from './google.model';
 
 @ApiTags("Boards")
 @Controller()
@@ -28,7 +27,7 @@ export class AppController {
 
   @ApiOperation({ summary: "Find All Board" })
   @ApiResponse({ status: 200, type: Board })
-  @Get("/board/:id")
+  @Get("/my-boards/:id")
   async findAllBoard(@Query() query: any, @Param("id") googleId: string): Promise<{ totalPages: number; currentPage: number; totalItem: number; data: Board[] }> {
     return await this.appService.findAllBoards(googleId, query);
   }

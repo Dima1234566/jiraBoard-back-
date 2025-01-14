@@ -11,9 +11,11 @@ export class Board extends Model<Board> {
     @Prop({ type: String })
     name: string;
 
-    @ApiProperty({ example: '121541251wsraq2', description: 'user id' })
+
+
+    @ApiProperty({ example: '121541251wsraq2', description: 'user google id' })
     @Prop({ type: String })
-    userId: string;
+    googleId: string;
 
 }
 

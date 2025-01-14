@@ -56,7 +56,7 @@ export class AppService {
       const { name, page, size } = query;
       const currentPage = page || 1;
       const sizeOfItems = size || 6;
-      const totalCount = await this.boardModel.countDocuments() || 0;
+      const totalCount = await this.boardModel.countDocuments({ googleId: googleId }) || 0;
       const totalPages = Math.ceil(totalCount / sizeOfItems);
       const offSet = (currentPage - 1) * sizeOfItems;
       if (!name) {
