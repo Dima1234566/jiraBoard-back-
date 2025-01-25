@@ -34,8 +34,8 @@ This is the backend part of the application, built with **NestJS**, a progressiv
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-repo/back.git
-   cd back
+git clone https://github.com/your-repo/back.git
+cd back
    ```
 2. Install dependencies:
 
