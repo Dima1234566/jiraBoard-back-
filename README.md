@@ -1,4 +1,4 @@
-```markdown
+
 # Backend Application
 
 This is the backend part of the application, built with **NestJS**, a progressive Node.js framework. The backend supports authentication, API documentation, and MongoDB for database operations.
