@@ -58,8 +58,4 @@ npm run start:dev
 
 npm run build
 ```
-5. Start the production server:
 
-```bash
-npm run start:prod
-```
