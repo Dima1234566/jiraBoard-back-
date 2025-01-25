@@ -36,3 +36,28 @@ This is the backend part of the application, built with **NestJS**, a progressiv
    ```bash
    git clone https://github.com/your-repo/back.git
    cd back
+   ```
+2. Install dependencies:
+
+```bash
+
+npm install
+```
+
+3. Run the development server:
+
+```bash
+
+npm run start:dev
+```
+4. Build for production:
+
+```bash
+
+npm run build
+```
+5. Start the production server:
+
+```bash
+npm run start:prod
+```
